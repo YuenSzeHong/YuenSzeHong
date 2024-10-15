@@ -1,5 +1,7 @@
 # Hi there! 👋 I'm Yuen Sze Hong
 
+*Read this in other languages: [简体中文](README.zh-CN.md), [廣東話（香港）](README.zh-HK.md), [繁體中文（台灣）](README.zh-TW.md), [日本語](README.ja-JP.md)*
+
 I'm a passionate developer with a strong focus on web development and a keen interest in AI and multimedia. I recently graduated with a BA in Applied and Human-Centered Computing from Hang Seng University of Hong Kong, which is certified to be equivalent to a BSc in Applied Computing. I am actively seeking new opportunities in the tech industry.
 
 ## 🔧 Technologies & Tools
