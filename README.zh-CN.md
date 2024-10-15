@@ -1,6 +1,6 @@
 # 你好！👋 我是阮思康
 
-*其他语言版本: [English](README.md), [日本語](README.ja-JP.md), [廣東話（香港）](README.zh-HK.md), [繁體中文（台灣）](README.zh-TW.md)*
+*其他语言版本: [English](README.md), [日本語](README.ja-JP.md), [廣東話（香港）](README.zh-HK.md), [繁體中文（台灣省）](README.zh-TW.md)*
 
 我是一位充满激情的开发者，专注于Web开发，对AI和多媒体有浓厚的兴趣。我最近从香港恒生大学获得了应用和以人为本计算学士学位，该学位被认证相当于应用计算理学学士学位。我正在积极寻求科技行业的新机会。
 
