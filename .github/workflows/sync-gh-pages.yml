@@ -47,18 +47,14 @@ jobs:
             ORIGINAL_HEADLINE=$(echo "$ORIGINAL_COMMIT_MSG" | head -n 1)
             SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
             
-            # Construct message purely inside Bash
-            COMMIT_MSG=$(cat <<EOF
-            $ORIGINAL_HEADLINE [skip ci]
-
-            Automated sync from profile repository.
-            Commit: ${{ github.repository }}@$SHORT_SHA
-            Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
-
-            Original message:
-            $ORIGINAL_COMMIT_MSG
-            EOF
-            )
+            # Construct message purely inside Bash without heredoc indentation issues
+            COMMIT_MSG=$(printf '%s\n\n%s\nCommit: %s@%s\nTimestamp: %s\n\nOriginal message:\n%s\n' \
+              "$ORIGINAL_HEADLINE [skip ci]" \
+              "Automated sync from profile repository." \
+              "${{ github.repository }}" \
+              "$SHORT_SHA" \
+              "$(date -u +"%Y-%m-%d %H:%M:%S UTC")" \
+              "$ORIGINAL_COMMIT_MSG")
             
             git commit -m "$COMMIT_MSG"
             git push
