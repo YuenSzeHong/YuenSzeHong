@@ -23,6 +23,8 @@ jobs:
           repositories: "${{ github.repository_owner }}.github.io"
 
       - name: Push to Pages Repo
+        env:
+          ORIGINAL_COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -40,7 +42,25 @@ jobs:
           cd dest_repo
           if [ -n "$(git status --porcelain)" ]; then
             git add -A
-            git commit -m "Sync: Mirror all profile contents [skip ci]"
+            
+            # Extract headline safely via Bash environment variable
+            ORIGINAL_HEADLINE=$(echo "$ORIGINAL_COMMIT_MSG" | head -n 1)
+            SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+            
+            # Construct message purely inside Bash
+            COMMIT_MSG=$(cat <<EOF
+            $ORIGINAL_HEADLINE [skip ci]
+
+            Automated sync from profile repository.
+            Commit: ${{ github.repository }}@$SHORT_SHA
+            Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+            Original message:
+            $ORIGINAL_COMMIT_MSG
+            EOF
+            )
+            
+            git commit -m "$COMMIT_MSG"
             git push
           else
             echo "No changes detected."
