@@ -1,6 +1,7 @@
 name: Sync README to GitHub Pages
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
 
@@ -18,6 +19,8 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          # This tells the app to grab access for the target repo as well
+          repositories: "${{ github.repository_owner }}.github.io"
 
       - name: Push to Pages Repo
         run: |
