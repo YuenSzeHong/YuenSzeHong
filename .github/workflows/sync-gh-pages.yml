@@ -1,0 +1,40 @@
+name: Sync README to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      # Generates a temporary token using your GitHub App credentials
+      - name: Generate Token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Push to Pages Repo
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Clone the destination repo using the App's generated token
+          git clone https://x-access-token:${{ steps.generate-token.outputs.token }}@github.com/${{ github.repository_owner }}/${{ github.repository_owner }}.github.io.git dest_repo
+          
+          # Copy over the markdown file
+          cp README.md dest_repo/index.md
+          
+          cd dest_repo
+          if [ -n "$(git status --porcelain)" ]; then
+            git add index.md
+            git commit -m "Sync: Updated from Profile README [skip ci]"
+            git push
+          else
+            echo "No changes detected."
+          fi
